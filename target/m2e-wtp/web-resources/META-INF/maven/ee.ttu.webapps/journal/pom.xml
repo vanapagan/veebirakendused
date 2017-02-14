@@ -5,7 +5,7 @@
   <artifactId>journal</artifactId>
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
-  <name>journal Maven Webapp</name>
+  <name>Online Journal WebApplication</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>
