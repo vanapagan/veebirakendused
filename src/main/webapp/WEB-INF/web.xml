@@ -5,14 +5,20 @@
 <web-app>
 	<display-name>Archetype Created Web Application</display-name>
 	<servlet>
-		<servlet-name>HelloWorld</servlet-name>
-		<servlet-class>ee.ttu.webapps.journal.HelloWorld</servlet-class>
+		<servlet-name>login</servlet-name>
+		<servlet-class>ee.ttu.webapps.journal.Login</servlet-class>
 	</servlet>
-
+	<servlet>
+		<servlet-name>Welcome</servlet-name>
+		<servlet-class>ee.ttu.webapps.journal.Welcome</servlet-class>
+	</servlet>
 	<servlet-mapping>
-		<servlet-name>HelloWorld</servlet-name>
-		<url-pattern>/hello</url-pattern>
+		<servlet-name>login</servlet-name>
+		<url-pattern>/login</url-pattern>
 	</servlet-mapping>
-	
+	<servlet-mapping>
+		<servlet-name>Welcome</servlet-name>
+		<url-pattern>/welcome</url-pattern>
+	</servlet-mapping>
 </web-app>
 
