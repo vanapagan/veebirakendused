@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 public class Validate {
+	
 	public static boolean checkUser(String username, String password) {
 		boolean st = false;
 		try {
