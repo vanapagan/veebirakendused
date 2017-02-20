@@ -37,10 +37,10 @@ public class Welcome extends HttpServlet {
 				+ "function editEntry(id, memoText, subjectId) {" + "document.getElementById(\"entryId\").value = id;"
 				+ "document.getElementById(\"memoText\").value = memoText;"
 				+ "document.getElementById(\"subjectId\").value = subjectId;"
-				+ "document.getElementById(\"handlerAction\").value = \"createEditJournalEntryForm\";"
-				+ "}" + "</script>";
+				+ "document.getElementById(\"handlerAction\").value = \"createEditJournalEntryForm\";" + "}"
+				+ "</script>";
 
-		String container = "<div class=\"container\"><div class=\"jumbotron\"><h1>Welcome back "
+		String container = "<div class=\"container\"><div class=\"jumbotron\"><h1>Welcome "
 				+ username.substring(0, 1).toUpperCase() + username.substring(1)
 				+ "!</h1><p>Here you can browse your previous entries and make new ones.</p>";
 		String jumboEnd = "</div></div>";
@@ -135,30 +135,42 @@ public class Welcome extends HttpServlet {
 
 			sb.append("<form action=\"handler\" id=\"manipulateEntry\" method=\"POST\">");
 			sb.append("<table class=\"table table-bordered\">");
-			while (rs.next()) {
+			if (!rs.next() ) {
+			    sb.append("<p>There are currently no entries in your journal</p>");
+			} else {
+				rs.beforeFirst();
 				sb.append("<tr>");
-				sb.append("<td>");
-				sb.append(rs.getTimestamp("timestamp"));
-				sb.append("</td>");
-				sb.append("<td>");
-				sb.append(rs.getString("name"));
-				sb.append("</td>");
-				sb.append("<td>");
-				sb.append(rs.getString("memo"));
-				sb.append("</td>");
-				sb.append("<td>");
-				sb.append("<button class=\"btn btn-edit\" onclick=\"editEntry(" + rs.getInt("id") + ", "
-						+ "'" + rs.getString("memo") + "'" + ", " + rs.getInt("subject_id")
-						+ ")\"><span class=\"glyphicon glyphicon-edit\"></span></button>");
-				sb.append("<button class=\"btn btn-danger\" onclick=\"deleteEntry("
-						+ rs.getInt("id") + ")\"><span class=\"glyphicon glyphicon-trash\"></span></button>");
-				sb.append("</td>");
+				sb.append("<th>Time</th>");
+				sb.append("<th>Subject</th>");
+				sb.append("<th>Memo</th>");
+				sb.append("<th>Edit/Remove Entry</th>");
 				sb.append("</tr>");
+				while (rs.next()) {
+					sb.append("<tr>");
+					sb.append("<td>");
+					sb.append(rs.getTimestamp("timestamp"));
+					sb.append("</td>");
+					sb.append("<td>");
+					sb.append(rs.getString("name"));
+					sb.append("</td>");
+					sb.append("<td>");
+					sb.append(rs.getString("memo"));
+					sb.append("</td>");
+					sb.append("<td>");
+					sb.append("<button class=\"btn btn-edit\" onclick=\"editEntry(" + rs.getInt("id") + ", " + "'"
+							+ rs.getString("memo") + "'" + ", " + rs.getInt("subject_id")
+							+ ")\"><span class=\"glyphicon glyphicon-edit\"></span></button>");
+					sb.append("<button class=\"btn btn-danger\" onclick=\"deleteEntry(" + rs.getInt("id")
+							+ ")\"><span class=\"glyphicon glyphicon-trash\"></span></button>");
+					sb.append("</td>");
+					sb.append("</tr>");
+				}
 			}
 			sb.append("</table>");
 			sb.append("<input type=\"hidden\" id=\"entryId\" class=\"form-control\" name=\"entryId\">");
 			sb.append("<input type=\"hidden\" id=\"memoText\" class=\"form-control\" name=\"memo\">");
-			sb.append("<input type=\"hidden\" id=\"userId\" class=\"form-control\" name=\"userId\" value=\"" + id + "\">");
+			sb.append("<input type=\"hidden\" id=\"userId\" class=\"form-control\" name=\"userId\" value=\"" + id
+					+ "\">");
 			sb.append("<input type=\"hidden\" id=\"subjectId\" class=\"form-control\" name=\"subjectId\">");
 			sb.append("<input type=\"hidden\" id=\"handlerAction\" class=\"form-control\" name=\"handlerAction\">");
 			sb.append("<input type=\"hidden\" class=\"form-control\" name=\"username\" value=\"" + username + "\">");
