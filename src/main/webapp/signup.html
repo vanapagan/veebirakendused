@@ -23,13 +23,14 @@
 
 	<div class="container">
 
-		<form class="form-signin" action="signup" method="POST">
+		<form class="form-signin" action="handler" method="POST">
 			<h2 class="form-signin-heading">Fill in your information:</h2>
 			<input type="text" class="form-control air" placeholder="First name" name="firstn" required autofocus> 
 			<input type="text" class="form-control air" placeholder="Last name" name="lastn" required> 
 			<input type="email" class="form-control air" placeholder="Email" name="lastn" required> 
 			<input type="text" class="form-control air" placeholder="Username" name="username" required> 
 			<input type="password" class="form-control air" placeholder="Enter password" name="password" required>
+			<input type="hidden" name="handlerAction" value="signUp" > 
 			<button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
 		</form>
 

@@ -36,6 +36,9 @@ public class Handler extends HttpServlet {
 			} else if (handlerAction.equals("deleteJournalEntry")) {
 				deleteJournalEntry(request);
 				out.println("Successfully deleted a journal entry");
+			} else if (handlerAction.equals("signUp")) {
+				String username = signUpUser(request);
+				out.println("User '" + username + "' created successfully");
 			} else {
 				throw new JournalException("Handler action '" + handlerAction + "' is not supported at the moment");
 			}
@@ -48,6 +51,30 @@ public class Handler extends HttpServlet {
 		}
 	}
 
+	private String signUpUser(HttpServletRequest request) throws JournalException {
+		try {
+
+			Class.forName("com.mysql.cj.jdbc.Driver");
+
+			Connection con = getConnection();
+
+			String username = request.getParameter("username");
+			String password = request.getParameter("password");
+
+			PreparedStatement ps = con
+					.prepareStatement("insert into journaldb.user (username, password) values (?, ?)");
+
+			ps.setString(1, username);
+			ps.setString(2, password);
+
+			ps.executeUpdate();
+			return username;
+		} catch (Exception e) {
+			throw new JournalException("Failed to create new user " + e.getMessage(), e);
+		}
+		
+	}
+
 	private void editJournalEntry(HttpServletRequest request) throws JournalException {
 		try {
 
@@ -56,12 +83,12 @@ public class Handler extends HttpServlet {
 
 			int entryId = new Integer(request.getParameter("entryId")).intValue();
 
-			PreparedStatement ps = con.prepareStatement("UPDATE journaldb.entry SET subject_id = ?, memo = ? WHERE id=?");
-			
+			PreparedStatement ps = con
+					.prepareStatement("UPDATE journaldb.entry SET subject_id = ?, memo = ? WHERE id=?");
+
 			ps.setInt(1, new Integer(request.getParameter("subjectId")).intValue());
 			ps.setString(2, request.getParameter("memo"));
 			ps.setInt(3, entryId);
-			
 
 			ps.executeUpdate();
 
